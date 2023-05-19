@@ -86,3 +86,38 @@ jobs:
         with:
           npm-token: ${{ secrets.NPM_TOKEN }}
           npm-tag: ${{ steps.get-release-tag.outputs.tag }}
+
+  get-release-version:
+    runs-on: ubuntu-latest
+    needs: publish-release
+    outputs:
+      RELEASE_VERSION: ${{ steps.get-release-version.outputs.RELEASE_VERSION }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.sha }}
+      - id: get-release-version
+        shell: bash
+        run: ./scripts/get.sh ".version" "RELEASE_VERSION"
+
+  publish-simulator-to-versioned-gh-pages:
+    name: Publish site to `snaps-simulator` directory of `gh-pages` branch
+    needs: get-release-version
+    permissions:
+      contents: write
+    uses: ./.github/workflows/publish-site.yml
+    with:
+      build_script: yarn workspace @metamask/snaps-simulator build
+      publish_dir: ./packages/snaps-simulator/dist
+      destination_dir: snaps-simulator/${{ steps.get-release-version.outputs.RELEASE_VERSION }}
+
+  publish-simulator-to-latest-gh-pages:
+    name: Publish site to `snaps-simulator` directory of `gh-pages` branch
+    needs: publish-release
+    permissions:
+      contents: write
+    uses: ./.github/workflows/publish-site.yml
+    with:
+      build_script: yarn workspace @metamask/snaps-simulator build
+      publish_dir: ./packages/snaps-simulator/dist
+      destination_dir: snaps-simulator
