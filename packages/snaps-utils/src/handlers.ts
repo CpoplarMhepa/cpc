@@ -66,6 +66,20 @@ export type OnCronjobHandler<
     | undefined,
 > = (args: { request: JsonRpcRequest<Params> }) => Promise<unknown>;
 
+export enum UserInputEventType {
+  ButtonClickEvent = 'ButtonClickEvent',
+}
+
+type UserInputEvent = {
+  type: UserInputEventType;
+  name?: string;
+};
+
+export type OnUserInputHandler = (args: {
+  id: string;
+  event: UserInputEvent;
+}) => Promise<void>;
+
 /**
  * All the function-based handlers that a snap can implement.
  */
@@ -73,6 +87,7 @@ export type SnapFunctionExports = {
   onRpcRequest?: OnRpcRequestHandler;
   onTransaction?: OnTransactionHandler;
   onCronjob?: OnCronjobHandler;
+  onUserInput?: OnUserInputHandler;
 };
 
 /**

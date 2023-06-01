@@ -4,6 +4,7 @@ import { assertExhaustive } from '@metamask/utils';
 import { InvokeSnap, InvokeSnapArgs } from './BaseSnapExecutor';
 import {
   assertIsOnTransactionRequestArguments,
+  assertIsOnUserInputRequestArguments,
   ExecuteSnap,
   JsonRpcRequestWithoutId,
   Ping,
@@ -50,6 +51,13 @@ export function getHandlerArguments(
 
     case HandlerType.OnCronjob:
       return { request };
+
+    case HandlerType.OnUserInput: {
+      assertIsOnUserInputRequestArguments(request.params);
+
+      const { id, event } = request.params;
+      return { id, event };
+    }
 
     default:
       return assertExhaustive(handler);

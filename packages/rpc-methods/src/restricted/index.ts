@@ -19,6 +19,22 @@ import {
 } from './manageAccounts';
 import { manageStateBuilder, ManageStateMethodHooks } from './manageState';
 import { notifyBuilder, NotifyMethodHooks } from './notify';
+import {
+  readInterfaceBuilder,
+  ReadInterfaceMethodHooks,
+} from './readInterface';
+import {
+  resolveInterfaceBuilder,
+  ResolveInterfaceMethodHooks,
+} from './resolveInterface';
+import {
+  showInterfaceBuilder,
+  ShowInterfaceMethodHooks,
+} from './showInterface';
+import {
+  updateInterfaceBuilder,
+  UpdateInterfaceMethodHooks,
+} from './updateInterface';
 
 export type { DialogParameters } from './dialog';
 export { DialogType } from './dialog';
@@ -35,7 +51,11 @@ export type RestrictedMethodHooks = DialogMethodHooks &
   InvokeSnapMethodHooks &
   ManageStateMethodHooks &
   NotifyMethodHooks &
-  ManageAccountsMethodHooks;
+  ManageAccountsMethodHooks &
+  ReadInterfaceMethodHooks &
+  ResolveInterfaceMethodHooks &
+  ShowInterfaceMethodHooks &
+  UpdateInterfaceMethodHooks;
 
 export const restrictedMethodPermissionBuilders = {
   [dialogBuilder.targetName]: dialogBuilder,
@@ -47,6 +67,10 @@ export const restrictedMethodPermissionBuilders = {
   [manageStateBuilder.targetName]: manageStateBuilder,
   [notifyBuilder.targetName]: notifyBuilder,
   [manageAccountsBuilder.targetName]: manageAccountsBuilder,
+  [readInterfaceBuilder.targetName]: resolveInterfaceBuilder,
+  [resolveInterfaceBuilder.targetName]: resolveInterfaceBuilder,
+  [showInterfaceBuilder.targetName]: showInterfaceBuilder,
+  [updateInterfaceBuilder.targetName]: updateInterfaceBuilder,
 } as const;
 
 export * from './caveats';
