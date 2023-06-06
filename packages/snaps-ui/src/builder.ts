@@ -10,6 +10,7 @@ import {
   PanelStruct,
   SpinnerStruct,
   TextStruct,
+  ButtonStruct,
 } from './nodes';
 
 /**
@@ -181,3 +182,24 @@ export const spinner = createBuilder(NodeType.Spinner, SpinnerStruct);
  * ```
  */
 export const text = createBuilder(NodeType.Text, TextStruct, ['value']);
+
+/**
+ * Create a {@link Button} node.
+ *
+ * @param args - The node arguments. This can be either a string, or an object
+ * with a `text` property.
+ * @param args.variant - The optional variant of the button.
+ * @param args.text - The text content of the node.
+ * @param args.name - The optional name of the button.
+ * @returns The text node as object.
+ * @example
+ * ```typescript
+ * const node = button({  variant: 'primary', text: 'Hello, world!', name: 'myButton' });
+ * const node = button('primary', 'Hello, world!', 'myButton');
+ * ```
+ */
+export const button = createBuilder(NodeType.Button, ButtonStruct, [
+  'variant',
+  'value',
+  'name',
+]);

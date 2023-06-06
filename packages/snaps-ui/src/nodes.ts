@@ -1,10 +1,12 @@
 import {
   array,
   assign,
+  enums,
   Infer,
   lazy,
   literal,
   object,
+  optional,
   string,
   Struct,
   union,
@@ -61,6 +63,7 @@ export enum NodeType {
   Panel = 'panel',
   Spinner = 'spinner',
   Text = 'text',
+  Button = 'button',
 }
 
 export const CopyableStruct = assign(
@@ -156,6 +159,34 @@ export const TextStruct = assign(
  */
 export type Text = Infer<typeof TextStruct>;
 
+export enum ButtonVariants {
+  Primary = 'primary',
+  Secondary = 'secondary',
+}
+
+export const ButtonStruct = assign(
+  LiteralStruct,
+  object({
+    type: literal(NodeType.Button),
+    variant: optional(
+      enums([ButtonVariants.Primary, ButtonVariants.Secondary]),
+    ),
+    value: string(),
+    name: optional(string()),
+  }),
+);
+
+/**
+ * A button node, that renders either a primary or a secondary button.
+ *
+ * @property type - The type of the node, must be the string 'button'.
+ * @property variant - The style variant of the node, must be either 'primary' or 'secondary'.
+ * @property value - The text content of the node, either as plain text, or as a
+ * markdown string.
+ * @property name - An optional name to identify the button.
+ */
+export type Button = Infer<typeof ButtonStruct>;
+
 export const ComponentStruct = union([
   CopyableStruct,
   DividerStruct,
@@ -163,6 +194,7 @@ export const ComponentStruct = union([
   PanelStruct,
   SpinnerStruct,
   TextStruct,
+  ButtonStruct,
 ]);
 
 /**
