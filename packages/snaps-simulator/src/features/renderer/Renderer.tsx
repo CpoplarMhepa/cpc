@@ -13,6 +13,8 @@ export const components: Record<
   [NodeType.Panel]: Panel,
   [NodeType.Spinner]: Spinner,
   [NodeType.Text]: Text,
+  // @todo: Create a button
+  [NodeType.Button]: Text,
 };
 
 type RendererProps = {
