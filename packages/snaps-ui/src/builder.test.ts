@@ -1,5 +1,13 @@
-import { copyable, divider, heading, panel, spinner, text } from './builder';
-import { NodeType } from './nodes';
+import {
+  button,
+  copyable,
+  divider,
+  heading,
+  panel,
+  spinner,
+  text,
+} from './builder';
+import { ButtonVariants, NodeType } from './nodes';
 
 describe('copyable', () => {
   it('creates a copyable component', () => {
@@ -124,6 +132,30 @@ describe('panel', () => {
         },
       ],
     });
+
+    expect(
+      panel({
+        children: [
+          text({ value: 'foo' }),
+          button({
+            variant: ButtonVariants.Primary,
+            value: 'bar',
+            name: 'bar',
+          }),
+        ],
+      }),
+    ).toStrictEqual({
+      type: NodeType.Panel,
+      children: [
+        { type: NodeType.Text, value: 'foo' },
+        {
+          type: NodeType.Button,
+          variant: ButtonVariants.Primary,
+          value: 'bar',
+          name: 'bar',
+        },
+      ],
+    });
   });
 
   it('creates a panel component using the shorthand form', () => {
@@ -215,6 +247,60 @@ describe('text', () => {
     // @ts-expect-error - Invalid args.
     expect(() => text({})).toThrow(
       'Invalid text component: At path: value -- Expected a string, but received: undefined.',
+    );
+  });
+});
+
+describe('button', () => {
+  it('creates a button component', () => {
+    expect(
+      button({
+        variant: ButtonVariants.Primary,
+        value: 'Hello, world!',
+        name: 'myButton',
+      }),
+    ).toStrictEqual({
+      type: NodeType.Button,
+      variant: ButtonVariants.Primary,
+      name: 'myButton',
+      value: 'Hello, world!',
+    });
+
+    expect(
+      button({
+        value: 'Hello, world!',
+      }),
+    ).toStrictEqual({
+      type: NodeType.Button,
+      value: 'Hello, world!',
+    });
+  });
+
+  it('creates a text component using the shorthand form', () => {
+    expect(
+      button(ButtonVariants.Primary, 'Hello, world!', 'myButton'),
+    ).toStrictEqual({
+      type: NodeType.Button,
+      value: 'Hello, world!',
+      variant: ButtonVariants.Primary,
+      name: 'myButton',
+    });
+
+    expect(text('foo bar')).toStrictEqual({
+      type: NodeType.Text,
+      value: 'foo bar',
+    });
+  });
+
+  it('validates the args', () => {
+    // @ts-expect-error - Invalid args.
+    expect(() => button({ value: 'foo', bar: 'baz' })).toThrow(
+      'Invalid button component: At path: bar -- Expected a value of type `never`, but received: `"baz"`.',
+    );
+
+    // @ts-expect-error - Invalid args.
+    expect(() => button({})).toThrow(
+      'Invalid button component: At path: value -- Expected a string, but received: undefined.',
     );
   });
 });
