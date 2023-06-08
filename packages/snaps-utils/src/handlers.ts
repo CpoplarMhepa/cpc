@@ -71,7 +71,7 @@ export enum UserInputEventType {
   ButtonClickEvent = 'ButtonClickEvent',
 }
 
-const UserInputEventStruct = object({
+export const UserInputEventStruct = object({
   type: enums([UserInputEventType.ButtonClickEvent]),
   name: string(),
 });
