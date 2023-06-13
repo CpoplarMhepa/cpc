@@ -15,6 +15,8 @@ export const components: Record<
   [NodeType.Text]: Text,
   // @todo: Create a button
   [NodeType.Button]: Text,
+  [NodeType.Input]: Text,
+  [NodeType.Label]: Text,
 };
 
 type RendererProps = {
