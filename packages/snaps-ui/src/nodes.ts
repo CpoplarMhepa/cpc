@@ -64,6 +64,9 @@ export enum NodeType {
   Spinner = 'spinner',
   Text = 'text',
   Button = 'button',
+  Form = 'form',
+  Label = 'label',
+  Input = 'input',
 }
 
 export const CopyableStruct = assign(
@@ -187,6 +190,39 @@ export const ButtonStruct = assign(
  */
 export type Button = Infer<typeof ButtonStruct>;
 
+export const InputStruct = assign(
+  NodeStruct,
+  object({
+    type: literal(NodeType.Input),
+    value: optional(string()),
+    name: optional(string()),
+    placeholder: optional(string()),
+  }),
+);
+
+export type Input = Infer<typeof InputStruct>;
+
+export const LabelStruct = assign(
+  LiteralStruct,
+  object({
+    type: literal(NodeType.Label),
+    value: string(),
+    for: string(),
+  }),
+);
+
+export type Label = Infer<typeof LabelStruct>;
+
+export const FormStruct = assign(
+  ParentStruct,
+  object({
+    type: literal(NodeType.Form),
+    name: optional(string()),
+  }),
+);
+
+export type From = Infer<typeof FormStruct>;
+
 export const ComponentStruct = union([
   CopyableStruct,
   DividerStruct,
@@ -195,6 +231,8 @@ export const ComponentStruct = union([
   SpinnerStruct,
   TextStruct,
   ButtonStruct,
+  InputStruct,
+  LabelStruct,
 ]);
 
 /**

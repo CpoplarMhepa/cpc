@@ -1,6 +1,6 @@
 import { Component } from '@metamask/snaps-ui';
 import { Json, JsonRpcRequest } from '@metamask/utils';
-import { Infer, enums, object, string } from 'superstruct';
+import { Infer, enums, object, optional, string } from 'superstruct';
 
 /**
  * The `onRpcRequest` handler. This is called whenever a JSON-RPC request is
@@ -73,7 +73,7 @@ export enum UserInputEventType {
 
 export const UserInputEventStruct = object({
   type: enums([UserInputEventType.ButtonClickEvent]),
-  name: string(),
+  name: optional(string()),
 });
 
 type UserInputEvent = Infer<typeof UserInputEventStruct>;
