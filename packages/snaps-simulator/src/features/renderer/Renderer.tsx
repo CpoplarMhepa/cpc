@@ -13,10 +13,11 @@ export const components: Record<
   [NodeType.Panel]: Panel,
   [NodeType.Spinner]: Spinner,
   [NodeType.Text]: Text,
-  // @todo: Create a button
+  // TODO(@guillaumerx): Quick fix to build, update those later
   [NodeType.Button]: Text,
   [NodeType.Input]: Text,
   [NodeType.Label]: Text,
+  [NodeType.Form]: Text,
 };
 
 type RendererProps = {
