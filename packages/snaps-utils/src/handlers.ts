@@ -1,6 +1,15 @@
 import { Component } from '@metamask/snaps-ui';
 import { Json, JsonRpcRequest } from '@metamask/utils';
-import { Infer, enums, object, optional, string } from 'superstruct';
+import {
+  Infer,
+  assign,
+  literal,
+  object,
+  optional,
+  record,
+  string,
+  union,
+} from 'superstruct';
 
 /**
  * The `onRpcRequest` handler. This is called whenever a JSON-RPC request is
@@ -67,14 +76,45 @@ export type OnCronjobHandler<
     | undefined,
 > = (args: { request: JsonRpcRequest<Params> }) => Promise<unknown>;
 
-export enum UserInputEventType {
+export enum UserInputEventTypes {
   ButtonClickEvent = 'ButtonClickEvent',
+  FormSubmitEvent = 'FormSubmitEvent',
+  InputChangeEvent = 'InputChangeEvent',
 }
 
-export const UserInputEventStruct = object({
-  type: enums([UserInputEventType.ButtonClickEvent]),
+export const EventStruct = object({
+  type: string(),
   name: optional(string()),
 });
+
+export const ButtonClickEventStruct = assign(
+  EventStruct,
+  object({
+    type: literal(UserInputEventTypes.ButtonClickEvent),
+  }),
+);
+
+export const FormSubmitEventStruct = assign(
+  EventStruct,
+  object({
+    type: literal(UserInputEventTypes.FormSubmitEvent),
+    value: record(string(), string()),
+  }),
+);
+
+export const InputChangeEventStruct = assign(
+  EventStruct,
+  object({
+    type: literal(UserInputEventTypes.InputChangeEvent),
+    value: string(),
+  }),
+);
+
+export const UserInputEventStruct = union([
+  ButtonClickEventStruct,
+  FormSubmitEventStruct,
+  InputChangeEventStruct,
+]);
 
 type UserInputEvent = Infer<typeof UserInputEventStruct>;
 
