@@ -7,6 +7,7 @@ import {
   validateOutfileName,
   NpmSnapFileNames,
 } from '@metamask/snaps-utils';
+import { assert } from '@metamask/utils';
 import chokidar from 'chokidar';
 import pathUtils from 'path';
 
@@ -37,6 +38,7 @@ export async function watch(argv: YargsArgs): Promise<void> {
     outfileName,
     src,
     serve: shouldServe,
+    context: { config },
   } = argv;
 
   if (outfileName) {
@@ -55,7 +57,8 @@ export async function watch(argv: YargsArgs): Promise<void> {
     }
 
     try {
-      await bundle(src, outfilePath, argv, loadConfig().bundlerCustomizer);
+      assert(config.bundler === 'browserify');
+      await bundle(src, outfilePath, argv, config.bundlerCustomizer);
 
       if (manifest) {
         await manifestHandler(argv);
