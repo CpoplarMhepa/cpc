@@ -3,11 +3,11 @@ import yargs from 'yargs';
 import builders from '../../builders';
 import { YargsArgs } from '../../types/yargs';
 import { build } from './build';
-import { processInvalidTranspilation } from './utils';
+import { processInvalidTranspilation } from './legacy/utils';
 
 const command = {
   command: ['build', 'b'],
-  desc: 'Build Snap from source',
+  desc: 'Build snap from source',
   builder: (yarg: yargs.Argv) => {
     yarg
       .option('dist', builders.dist)
