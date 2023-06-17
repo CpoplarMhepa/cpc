@@ -1,8 +1,8 @@
 import plugin, { Options } from '@metamask/snaps-browserify-plugin';
-import browserify, { BrowserifyObject } from 'browserify';
+import browserify from 'browserify';
 
-import { TranspilationModes } from '../../builders';
-import { ProcessedBrowserifyConfig } from '../../config';
+import { TranspilationModes } from '../../../builders';
+import { ProcessedBrowserifyConfig } from '../../../config';
 import { processDependencies, writeBundleFile } from './utils';
 
 // We need to statically import all Browserify transforms and all Babel presets
@@ -12,22 +12,20 @@ import { processDependencies, writeBundleFile } from './utils';
 /**
  * Builds a Snap bundle JS file from its JavaScript source.
  *
- * @param src - The source file path.
- * @param dest - The destination file path.
  * @param config - Processed CLI configuration.
  * @param config.sourceMaps - Whether to output sourcemaps.
  * @param config.stripComments - Whether to remove comments from code.
  * @param config.transpilationMode - The Babel transpilation mode.
- * @param bundlerTransform - An optional function which can be used to transform
  * the Browserify instance, e.g., adding a custom transform or plugin.
  */
 export async function bundle(
-  src: string,
-  dest: string,
   config: ProcessedBrowserifyConfig,
-  bundlerTransform?: (bundler: BrowserifyObject) => void,
 ): Promise<boolean> {
-  const { sourceMaps: debug, transpilationMode } = config.cliOptions;
+  const {
+    bundlerCustomizer,
+    cliOptions: { src, dist, sourceMaps: debug, transpilationMode },
+  } = config;
+
   const babelifyOptions = processDependencies(config);
   return new Promise((resolve, _reject) => {
     const bundler = browserify(src, {
@@ -66,7 +64,7 @@ export async function bundle(
       });
     }
 
-    bundlerTransform?.(bundler);
+    bundlerCustomizer?.(bundler);
 
     bundler.plugin<Options>(plugin, {
       stripComments: config.cliOptions.stripComments,
@@ -80,7 +78,7 @@ export async function bundle(
           bundleError,
           bundleBuffer,
           src,
-          dest,
+          dest: dist,
           resolve,
         }),
     );
