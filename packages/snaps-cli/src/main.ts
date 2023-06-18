@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { cli } from './cli';
-import commands from './cmds';
+import commands from './commands';
 import { logError } from './utils';
 
 cli(process.argv, commands).catch((error) => {
