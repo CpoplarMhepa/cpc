@@ -16,7 +16,6 @@ export const components: Record<
   // TODO(@guillaumerx): Quick fix to build, update those later
   [NodeType.Button]: Text,
   [NodeType.Input]: Text,
-  [NodeType.Label]: Text,
   [NodeType.Form]: Text,
 };
 
