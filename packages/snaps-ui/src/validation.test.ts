@@ -1,4 +1,17 @@
-import { Divider, Heading, NodeType, Panel, Spinner, Text } from './nodes';
+import {
+  Button,
+  ButtonTypes,
+  ButtonVariants,
+  Divider,
+  Form,
+  Heading,
+  Input,
+  InputTypes,
+  NodeType,
+  Panel,
+  Spinner,
+  Text,
+} from './nodes';
 import { assertIsComponent, isComponent } from './validation';
 
 describe('isComponent', () => {
@@ -67,6 +80,75 @@ describe('isComponent', () => {
     };
 
     expect(isComponent(text)).toBe(true);
+  });
+
+  it('returns true for a button component', () => {
+    const button: Button = {
+      type: NodeType.Button,
+      variant: ButtonVariants.Primary,
+      buttonType: ButtonTypes.Button,
+      name: 'myButton',
+      value: 'Hello, world!',
+    };
+
+    expect(isComponent(button)).toBe(true);
+  });
+
+  it('returns true for a button component without optional fields', () => {
+    const button: Button = {
+      type: NodeType.Button,
+      variant: undefined,
+      buttonType: undefined,
+      name: undefined,
+      value: 'Hello, world!',
+    };
+
+    expect(isComponent(button)).toBe(true);
+  });
+
+  it('returns true for an input component', () => {
+    const input: Input = {
+      type: NodeType.Input,
+      value: 'Hello, world!',
+      name: 'myInput',
+      inputType: InputTypes.Text,
+      placeholder: 'Type here...',
+      label: 'Hello',
+    };
+
+    expect(isComponent(input)).toBe(true);
+  });
+
+  it('returns true for an input component without optinal fields', () => {
+    const input: Input = {
+      type: NodeType.Input,
+      name: 'myInput',
+      value: undefined,
+      inputType: undefined,
+      placeholder: undefined,
+      label: undefined,
+    };
+
+    expect(isComponent(input)).toBe(true);
+  });
+
+  it('returns true for a form component', () => {
+    const form: Form = {
+      type: NodeType.Form,
+      name: 'myForm',
+      children: [
+        {
+          type: NodeType.Input,
+          name: 'myInput',
+          inputType: undefined,
+          placeholder: undefined,
+          value: undefined,
+          label: undefined,
+        },
+      ],
+    };
+
+    expect(isComponent(form)).toBe(true);
   });
 
   it.each([
@@ -154,6 +236,75 @@ describe('assertIsComponent', () => {
     };
 
     expect(() => assertIsComponent(text)).not.toThrow();
+  });
+
+  it('does not throw for a button component', () => {
+    const button: Button = {
+      type: NodeType.Button,
+      variant: ButtonVariants.Primary,
+      buttonType: ButtonTypes.Button,
+      name: 'myButton',
+      value: 'Hello, world!',
+    };
+
+    expect(() => assertIsComponent(button)).not.toThrow();
+  });
+
+  it('does not throw for a button component without optional fields', () => {
+    const button: Button = {
+      type: NodeType.Button,
+      variant: undefined,
+      buttonType: undefined,
+      name: undefined,
+      value: 'Hello, world!',
+    };
+
+    expect(() => assertIsComponent(button)).not.toThrow();
+  });
+
+  it('does not throw for an input component', () => {
+    const input: Input = {
+      type: NodeType.Input,
+      value: 'Hello, world!',
+      name: 'myInput',
+      inputType: InputTypes.Text,
+      placeholder: 'Type here...',
+      label: 'Hello',
+    };
+
+    expect(() => assertIsComponent(input)).not.toThrow();
+  });
+
+  it('does not throw for an input component without optinal fields', () => {
+    const input: Input = {
+      type: NodeType.Input,
+      name: 'myInput',
+      value: undefined,
+      inputType: undefined,
+      placeholder: undefined,
+      label: undefined,
+    };
+
+    expect(() => assertIsComponent(input)).not.toThrow();
+  });
+
+  it('does not throw for a form component', () => {
+    const form: Form = {
+      type: NodeType.Form,
+      name: 'myForm',
+      children: [
+        {
+          type: NodeType.Input,
+          name: 'myInput',
+          inputType: undefined,
+          placeholder: undefined,
+          value: undefined,
+          label: undefined,
+        },
+      ],
+    };
+
+    expect(isComponent(form)).toBe(true);
   });
 
   it.each([
