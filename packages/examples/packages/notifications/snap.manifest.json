@@ -7,11 +7,7 @@
     "url": "https://github.com/MetaMask/snaps.git"
   },
   "source": {
-<<<<<<< HEAD
-    "shasum": "8ip4xc7sMbpic8lNDVYRUEhPK0QHR2SLPyDXCuf62m4=",
-=======
-    "shasum": "DpWs/KPrynnFl/KmJcYCfyhVaXqe1I2dltyv4hMYUyI=",
->>>>>>> aae7924d (update lavamoat policy and manifests)
+    "shasum": "glrbiKzfnE4oakxvtZ75Z9NuZg7UIrcdFdvcBXXKFLk=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
